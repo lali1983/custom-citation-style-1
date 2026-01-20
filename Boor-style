@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl"
-       version="1.0"
-       class="numeric"
-       default-locale="en-US">
+  version="1.0"
+  class="numeric"
+  default-locale="en-US">
 
   <info>
-    <title>Cell Press (Full Authors, Numeric)</title>
-    <id>http://www.zotero.org/styles/cell-press-full-authors</id>
+    <title>NPJ/Vancouver-like (Full authors, colon after authors, DOI at end)</title>
+    <id>http://www.zotero.org/styles/npj-vancouver-colon-full-authors</id>
+    <link href="http://www.zotero.org/styles/npj-vancouver-colon-full-authors" rel="self"/>
     <category citation-format="numeric"/>
-    <category field="biology"/>
-    <summary>Cell Press style with full author list, no abbreviation, numeric format.</summary>
+    <summary>Vancouver-like numeric references with full author list, colon after authors, and doi: prefix.</summary>
     <updated>2026-01-20</updated>
   </info>
 
-  <!-- Authors -->
+  <!-- AUTHOR -->
   <macro name="author">
-    <names variable="author">
-      <name initialize-with=""
-            delimiter=", "
-            delimiter-precedes-last="never"/>
+    <names variable="author" delimiter=", ">
+      <name initialize-with="" name-as-sort-order="all" sort-separator=" "/>
     </names>
   </macro>
 
-  <!-- Title -->
-  <macro name="title">
-    <text variable="title"/>
-  </macro>
-
-  <!-- Journal -->
-  <macro name="journal">
-    <text variable="container-title"/>
-  </macro>
-
-  <!-- Year -->
+  <!-- YEAR -->
   <macro name="year">
     <date variable="issued">
       <date-part name="year"/>
     </date>
   </macro>
 
-  <!-- Volume / issue -->
-  <macro name="volume-issue">
+  <!-- JOURNAL (short/abbrev if available) -->
+  <macro name="journal">
+    <text variable="container-title" form="short"/>
+  </macro>
+
+  <!-- VOLUME(ISSUE) -->
+  <macro name="vol-issue">
     <group>
       <text variable="volume"/>
       <group prefix="(" suffix=")">
@@ -49,27 +42,60 @@
     </group>
   </macro>
 
-  <!-- Pages -->
-  <macro name="pages">
-    <text variable="page"/>
+  <!-- PAGES OR ARTICLE NUMBER -->
+  <macro name="pages-or-article">
+    <choose>
+      <if variable="page">
+        <text variable="page"/>
+      </if>
+      <else-if variable="article-number">
+        <text variable="article-number"/>
+      </else-if>
+    </choose>
   </macro>
 
   <!-- DOI -->
   <macro name="doi">
-    <text prefix="doi: " variable="DOI"/>
+    <choose>
+      <if variable="DOI">
+        <text prefix="doi: " variable="DOI" suffix="."/>
+      </if>
+    </choose>
   </macro>
 
-  <bibliography delimiter=". ">
-    <layout>
-      <text macro="author"/>
-      <text macro="title"/>
-      <group>
-        <text macro="journal"/>
-        <text macro="year" prefix=" "/>
-        <text macro="volume-issue" prefix="; "/>
-        <text macro="pages" prefix=": "/>
+  <!-- IN-TEXT CITATIONS -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter=", ">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- BIBLIOGRAPHY -->
+  <bibliography>
+    <layout suffix=".">
+      <group delimiter=" ">
+        <group>
+          <text macro="author"/>
+          <text value=":"/>
+        </group>
+        <text variable="title" suffix="."/>
+        <group delimiter=" ">
+          <text macro="journal"/>
+          <group>
+            <text macro="year"/>
+            <text value=","/>
+          </group>
+          <group>
+            <text macro="vol-issue"/>
+            <text value=":"/>
+            <text macro="pages-or-article" suffix="."/>
+          </group>
+        </group>
+        <text macro="doi"/>
       </group>
-      <text macro="doi"/>
     </layout>
   </bibliography>
 
