@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0"
+       class="numeric"
+       default-locale="en-US">
+
+  <info>
+    <title>Cell Press (Full Authors, Numeric)</title>
+    <id>http://www.zotero.org/styles/cell-press-full-authors</id>
+    <category citation-format="numeric"/>
+    <category field="biology"/>
+    <summary>Cell Press style with full author list, no abbreviation, numeric format.</summary>
+    <updated>2026-01-20</updated>
+  </info>
+
+  <!-- Authors -->
+  <macro name="author">
+    <names variable="author">
+      <name initialize-with=""
+            delimiter=", "
+            delimiter-precedes-last="never"/>
+    </names>
+  </macro>
+
+  <!-- Title -->
+  <macro name="title">
+    <text variable="title"/>
+  </macro>
+
+  <!-- Journal -->
+  <macro name="journal">
+    <text variable="container-title"/>
+  </macro>
+
+  <!-- Year -->
+  <macro name="year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <!-- Volume / issue -->
+  <macro name="volume-issue">
+    <group>
+      <text variable="volume"/>
+      <group prefix="(" suffix=")">
+        <text variable="issue"/>
+      </group>
+    </group>
+  </macro>
+
+  <!-- Pages -->
+  <macro name="pages">
+    <text variable="page"/>
+  </macro>
+
+  <!-- DOI -->
+  <macro name="doi">
+    <text prefix="doi: " variable="DOI"/>
+  </macro>
+
+  <bibliography delimiter=". ">
+    <layout>
+      <text macro="author"/>
+      <text macro="title"/>
+      <group>
+        <text macro="journal"/>
+        <text macro="year" prefix=" "/>
+        <text macro="volume-issue" prefix="; "/>
+        <text macro="pages" prefix=": "/>
+      </group>
+      <text macro="doi"/>
+    </layout>
+  </bibliography>
+
+</style>
